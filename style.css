@@ -20,8 +20,7 @@ body {
     margin-bottom: 62px;
 }
 
-.app__search {
-    margin-bottom: 265px;
+.app__input {
     width: 500px;
     height: 61px;
     color: black;
@@ -29,11 +28,27 @@ body {
     font-weight: 400;
 }
 
-.app__search::placeholder {
-    
+.app__input::placeholder {
     color: black;
-    font-size: 38px;
+}
+
+.app__search {
+    width: 506px;
     font-weight: 400;
+    font-size: 30px;
+    height: 44px;
+    border: solid 1px;
+    background-color: #E3E3E3;
+    color: black;
+     
+}
+
+.app__search:hover {
+    background-color: #65CDF9;
+}
+
+.app__search:active {
+    background-color: #65CDF9;
 }
 
 .app__result {
