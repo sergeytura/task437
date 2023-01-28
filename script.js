@@ -3,8 +3,19 @@ search.textContent = 'ITS SEARCH'
 
 // const result = document.querySelector('.app__result')
 // result.textContent = 'ITS B'
+const debounce = (fn, debounceTime) => {
+    let timer;
+    return function(...args) {
+        clearInterval(timer)
+        timer = setInterval( () => fn.apply(this,args), debounceTime)
+    }
+};
 
 const input = document.querySelector('.app__input')
+input.addEventListener('input' ,(e) => {
+    const { value } = e.target;
+    return getRepo(value).then(a => repos.push(...a.items))
+});
 
 const app = document.querySelector('.app')
 const res =  document.createElement('div')
@@ -39,7 +50,7 @@ function getRepo(repo) {
 }
 
 let repos = []
-getRepo('goga').then(a => repos.push(...a.items))
+// getRepo('goga')
 console.log(repos)
 setTimeout( () => repos.forEach(e => console.log(e.name)), 1000)
 // search.textContent = 
