@@ -1,5 +1,5 @@
-const search = document.querySelector('.app__search')
-search.textContent = 'ITS SEARCH'
+// const search = document.querySelector('.app__search')
+// search.textContent = 'ITS SEARCH'
 
 // const result = document.querySelector('.app__result')
 // result.textContent = 'ITS B'
@@ -36,76 +36,30 @@ const res =  document.createElement('div')
 // res.append(ul)
 // app.append(res)
 
-
-
-
-// input.addEventListener('input', (e) => {
-//     fetch(`https://api.github.com/search/repositories?q=Q`)
-//     .then(response => console.log(response))
-// })
-// function getRepo(repo) {
-//    return new Promise((resolve, reject) => {
-//     fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
-//     .then(data => resolve(data.json()))
-//     .catch(err => reject(err))
-//    }) 
-// }
-
 async function getRepo(repo) {
     let data = await fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
     let dataJson = await data.json()
     return dataJson
 }
 
+getRepo('breed').then(a => reposName.push(...a.items))
 
-getRepo('12ga').then(a => reposName.push(...a.items))
-// getRepo('tetr').then(a => repos.push(...a.items))
-
-const ul = document.getElementById('ul');
+const ul = document.createElement('ul');
+ul.classList.add('app__search')
 const fragment = document.createDocumentFragment();
-
 const reposName = []
+console.log(reposName)
 
 setTimeout( () => {
     for(repo of reposName) {
         const li = document.createElement('li');
-        li.textContent = repo.name;
+        li.innerHTML = `<a href='${repo.html_url}'>${repo.name}</a>`;
         fragment.append(li);
     }
     ul.append(fragment)
     app.append(ul)
-},200)
+},500)
 
-
-// console.log(reposName)
-// setTimeout( () => repos.forEach(e => console.log(e.name)), 1000)
-
-// setTimeout( () => repos.forEach(e => console.log(e)), 2000)
-
-// async function getRepos () {
-//     const repos = []; 
-
-// }
-
-// console.log(getRepo('goga'));
-
-
-// search.textContent = 
 // document.addEventListener('click', (e) => {
 //     console.log(e.target)
 // })
-
-// debounce(getRepo('goga')
-
-// const element  = document.getElementById('ul'); // assuming ul exists
-// const fragment = document.createDocumentFragment();
-// const browsers = ['Firefox', 'Chrome', 'Opera',
-//     'Safari', 'Internet Explorer'];
-
-// browsers.forEach((browser) => {
-//     const li = document.createElement('li');
-//     li.textContent = browser;
-//     fragment.appendChild(li);
-// });
-
-// element.appendChild(fragment);
