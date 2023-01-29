@@ -33,13 +33,14 @@ async function getRepo(repo) { // получаем массив репозито
        .catch(err => new Error(`Ошибка: ${err}`))
 }
 
-function searchRepos (name) { // поиск репозиториев
+async function searchRepos (name) { // поиск репозиториев
+    const repos = []
     const app = document.querySelector('.app')
-    getRepo(name).then(repo => repos.push(...repo.items)) 
+    await getRepo(name).then(repo => repos.push(...repo.items)) 
     const ul = document.createElement('ul');
     ul.classList.add('app__search')
     const fragment = document.createDocumentFragment();
-    const repos = []
+    
     // не более 5 результатов поиска
     let liCount = document.querySelectorAll('.app__search-li') 
     if(Array.from(liCount).length >= 4) {
@@ -77,23 +78,21 @@ function searchRepos (name) { // поиск репозиториев
 // app.append(res)
 
 
-// document.addEventListener('click', (e) => {
-//     console.log(e.target)
-// })
-function resultRepos(res) {
+async function resultRepos(res) {
+    const repos = []
     const app = document.querySelector('.app')
-    getRepo(res).then(repo => repos.push(...repo.items)) 
+    await getRepo(res).then(repo => repos.push(...repo.items)) 
     const ul = document.createElement('ul');
     ul.classList.add('app__result')
     const fragment = document.createDocumentFragment();
-    const repos = []
-    console.log(repos)
+    
+    // console.log(repos)
     // не более 3 результатов поиска
-    let liCount = document.querySelectorAll('.app__result-li') 
-    if(Array.from(liCount).length >= 3) {
-         liCount.forEach( e => e.remove())
-    }
-    // создание карточки поиска
+    // let liCount = document.querySelectorAll('.app__result-li') 
+    // if(Array.from(liCount).length >= 3) {
+    //      liCount.forEach( e => e.remove())
+    // }
+    // создание карточки результата
     setTimeout( () => {
         for(repo of repos) {
             const li = document.createElement('li');
@@ -106,4 +105,15 @@ function resultRepos(res) {
     },500)
 }
 
-resultRepos('gana')
+
+document.addEventListener('click', (e) => {
+
+    if (e.target.matches('.app__search-li')) {
+        resultRepos(e) 
+    }
+    // let liCountSearch = document.querySelectorAll('.app__result-li') 
+    // console.log(Array.from(liCountSearch))
+    // if(Array.from(liCountSearch.length > 3)) {
+    //     liCountSearch[0].remove()
+    // }
+})
