@@ -16,84 +16,59 @@ input.addEventListener('input' ,(e) => {
     if(value.length > 2) debounce(searchRepos(value),2000)
 });
 
-// async function getRepo(repo) { // получаем массив репозиториев 5 шт.
-//     try {
-//         let data = await fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
-//         let dataJson = await data.json()
-//         return dataJson
-//     }
-//     catch(err){
-//         console.log(`Произошла ошибка: ${err}`)
-//     }
-// }
-
-async function getRepo(repo) { // получаем массив репозиториев 5 шт.
-   return fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
-       .then(data => data.json())
-       .catch(err => new Error(`Ошибка: ${err}`))
-}
-
 async function searchRepos (name) { // поиск репозиториев
     const repos = []
     const app = document.querySelector('.app')
-    await getRepo(name).then(repo => repos.push(...repo.items)) 
+    await fetch(`https://api.github.com/search/repositories?q=${name}&per_page=5`)
+               .then(data => data.json())
+               .then( repo => repos.push(...repo.items))
+               .catch(err => new Error(`Ошибка: ${err}`))
     const ul = document.createElement('ul');
     ul.classList.add('app__search')
     const fragment = document.createDocumentFragment();
-    
+    console.log(repos)
     // не более 5 результатов поиска
     let liCount = document.querySelectorAll('.app__search-li') 
     if(Array.from(liCount).length >= 4) {
          liCount.forEach( e => e.remove())
     }
     // создание карточки поиска
-    setTimeout( () => {
-        for(repo of repos) {
-            const li = document.createElement('li');
-            li.classList.add('app__search-li')
-            li.innerHTML = `<a href='${repo.html_url}'>${repo.name}</a>`;
-            fragment.append(li);
-        }
-        ul.append(fragment)
-        app.append(ul)
-    },900)
+    for(repo of repos) {
+        const li = document.createElement('li');
+        li.classList.add('app__search-li')
+        li.innerHTML = `<a href='${repo.html_url}'>${repo.name}</a>`;
+        fragment.append(li);
+    }
+    ul.append(fragment)
+    app.append(ul)
+ 
 }
-
-    
-
-// ul.style = "list-style: none;margin: 10px 0px 0px 10px;padding: 0px;"
-// const liName = document.createElement('li')
-// const liOwner = document.createElement('li')
-// const liStars = document.createElement('li')
-// liName.textContent = 'Name: FrontEnd'
-// liOwner.textContent = 'Owner: Sergey'
-// liStars.textContent = 'Stars: 6 stars'
-// ul.append(liName)
-// ul.append(liOwner)
-// ul.append(liStars)
-// console.log(ul)
-
-// res.classList.add('app__result')
-// res.append(ul)
-// app.append(res)
-
 
 async function resultRepos(res) {
     const repos = []
     const app = document.querySelector('.app')
-    await getRepo(res).then(repo => repos.push(...repo.items)) 
+
+    await fetch(`https://api.github.com/search/repositories?q=${res}&per_page=1`)
+               .then(data => data.json())
+               .then( repo => repos.push(...repo.items))
+               .catch(err => new Error(`Ошибка: ${err}`))
+
     const ul = document.createElement('ul');
     ul.classList.add('app__result')
     const fragment = document.createDocumentFragment();
-    
-    // console.log(repos)
     // не более 3 результатов поиска
-    // let liCount = document.querySelectorAll('.app__result-li') 
-    // if(Array.from(liCount).length >= 3) {
-    //      liCount.forEach( e => e.remove())
-    // }
+    let liCount = document.querySelectorAll('.app__result') 
+    
+    console.log(Array.from(liCount)) // ДОРАБОТАТЬ УДАЛЕНИЕ БОЛЕЕ 3-х КАРТОЧЕК РЕЗУЛЬТАТА
+    if(Array.from(liCount).length >= 3) {
+        try {
+            liCount.remove()
+        }
+        catch(err) {
+            console.log(`woops ${err}`)
+        } 
+    }
     // создание карточки результата
-    setTimeout( () => {
         for(repo of repos) {
             const li = document.createElement('li');
             li.classList.add('app__result-li')
@@ -101,15 +76,16 @@ async function resultRepos(res) {
             fragment.append(li);
         }
         ul.append(fragment)
-        app.prepend(ul)
-    },500)
+        app.append(ul)
 }
 
+// resultRepos('appert')
+searchRepos('tetris')
 
 document.addEventListener('click', (e) => {
-
+    
     if (e.target.matches('.app__search-li')) {
-        resultRepos(e) 
+        console.log(e.target) 
     }
     // let liCountSearch = document.querySelectorAll('.app__result-li') 
     // console.log(Array.from(liCountSearch))
