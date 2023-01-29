@@ -51,6 +51,11 @@ body {
     padding-left: 10px;
 }
 
+.app__search > li > a {
+    text-decoration: none;
+    color: black
+}
+
 .app__search > li:hover {
     background-color: #65CDF9;
 }

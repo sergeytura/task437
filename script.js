@@ -1,9 +1,4 @@
-// const search = document.querySelector('.app__search')
-// search.textContent = 'ITS SEARCH'
-
-// const result = document.querySelector('.app__result')
-// result.textContent = 'ITS B'
-const debounce = (fn, debounceTime) => {
+const debounce = (fn, debounceTime) => { // задержка поиска
     let timer;
     return function(...args) {
         clearInterval(timer)
@@ -11,15 +6,60 @@ const debounce = (fn, debounceTime) => {
     }
 };
 
-const input = document.querySelector('.app__input')
+const input = document.querySelector('.app__input') // поиск на странице
 input.addEventListener('input' ,(e) => {
     const { value } = e.target;
-    // return getRepo(value).then(a => repos.push(...a.items))
+    if(value.length == 0) { // если инпут чистый - удаляем автокомлит
+        let liCount = document.querySelectorAll('.app__search-li') 
+        liCount.forEach( e => e.remove())
+    }
+    if(value.length > 2) debounce(searchRepos(value),2000)
 });
 
-const app = document.querySelector('.app')
-const res =  document.createElement('div')
-// const ul = document.createElement('ul')
+// async function getRepo(repo) { // получаем массив репозиториев 5 шт.
+//     try {
+//         let data = await fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
+//         let dataJson = await data.json()
+//         return dataJson
+//     }
+//     catch(err){
+//         console.log(`Произошла ошибка: ${err}`)
+//     }
+// }
+
+async function getRepo(repo) { // получаем массив репозиториев 5 шт.
+   return fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
+       .then(data => data.json())
+       .catch(err => new Error(`Ошибка: ${err}`))
+}
+
+function searchRepos (name) { // поиск репозиториев
+    const app = document.querySelector('.app')
+    getRepo(name).then(repo => repos.push(...repo.items)) 
+    const ul = document.createElement('ul');
+    ul.classList.add('app__search')
+    const fragment = document.createDocumentFragment();
+    const repos = []
+    // не более 5 результатов поиска
+    let liCount = document.querySelectorAll('.app__search-li') 
+    if(Array.from(liCount).length >= 4) {
+         liCount.forEach( e => e.remove())
+    }
+    // создание карточки поиска
+    setTimeout( () => {
+        for(repo of repos) {
+            const li = document.createElement('li');
+            li.classList.add('app__search-li')
+            li.innerHTML = `<a href='${repo.html_url}'>${repo.name}</a>`;
+            fragment.append(li);
+        }
+        ul.append(fragment)
+        app.append(ul)
+    },900)
+}
+
+    
+
 // ul.style = "list-style: none;margin: 10px 0px 0px 10px;padding: 0px;"
 // const liName = document.createElement('li')
 // const liOwner = document.createElement('li')
@@ -36,30 +76,34 @@ const res =  document.createElement('div')
 // res.append(ul)
 // app.append(res)
 
-async function getRepo(repo) {
-    let data = await fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
-    let dataJson = await data.json()
-    return dataJson
-}
-
-getRepo('breed').then(a => reposName.push(...a.items))
-
-const ul = document.createElement('ul');
-ul.classList.add('app__search')
-const fragment = document.createDocumentFragment();
-const reposName = []
-console.log(reposName)
-
-setTimeout( () => {
-    for(repo of reposName) {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href='${repo.html_url}'>${repo.name}</a>`;
-        fragment.append(li);
-    }
-    ul.append(fragment)
-    app.append(ul)
-},500)
 
 // document.addEventListener('click', (e) => {
 //     console.log(e.target)
 // })
+function resultRepos(res) {
+    const app = document.querySelector('.app')
+    getRepo(res).then(repo => repos.push(...repo.items)) 
+    const ul = document.createElement('ul');
+    ul.classList.add('app__result')
+    const fragment = document.createDocumentFragment();
+    const repos = []
+    console.log(repos)
+    // не более 3 результатов поиска
+    let liCount = document.querySelectorAll('.app__result-li') 
+    if(Array.from(liCount).length >= 3) {
+         liCount.forEach( e => e.remove())
+    }
+    // создание карточки поиска
+    setTimeout( () => {
+        for(repo of repos) {
+            const li = document.createElement('li');
+            li.classList.add('app__result-li')
+            li.innerHTML = `Name: ${repo.name}<br/>Owner: ${repo.owner.type}<br/>Stars: ${repo.stargazers_count}`;
+            fragment.append(li);
+        }
+        ul.append(fragment)
+        app.prepend(ul)
+    },500)
+}
+
+resultRepos('gana')
