@@ -19,22 +19,24 @@ input.addEventListener('input' ,(e) => {
 
 const app = document.querySelector('.app')
 const res =  document.createElement('div')
-const ul = document.createElement('ul')
-ul.style = "list-style: none;margin: 10px 0px 0px 10px;padding: 0px;"
-const liName = document.createElement('li')
-const liOwner = document.createElement('li')
-const liStars = document.createElement('li')
-liName.textContent = 'Name: FrontEnd'
-liOwner.textContent = 'Owner: Sergey'
-liStars.textContent = 'Stars: 6 stars'
-ul.append(liName)
-ul.append(liOwner)
-ul.append(liStars)
-console.log(ul)
+// const ul = document.createElement('ul')
+// ul.style = "list-style: none;margin: 10px 0px 0px 10px;padding: 0px;"
+// const liName = document.createElement('li')
+// const liOwner = document.createElement('li')
+// const liStars = document.createElement('li')
+// liName.textContent = 'Name: FrontEnd'
+// liOwner.textContent = 'Owner: Sergey'
+// liStars.textContent = 'Stars: 6 stars'
+// ul.append(liName)
+// ul.append(liOwner)
+// ul.append(liStars)
+// console.log(ul)
 
-res.classList.add('app__result')
-res.append(ul)
-app.append(res)
+// res.classList.add('app__result')
+// res.append(ul)
+// app.append(res)
+
+
 
 
 // input.addEventListener('input', (e) => {
@@ -51,22 +53,41 @@ app.append(res)
 
 async function getRepo(repo) {
     let data = await fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
-    let dataJson = data.json()
+    let dataJson = await data.json()
     return dataJson
 }
 
-const repos = []
-// getRepo('goga').then(a => repos.push(...a.items))
-getRepo('tetr').then(a => repos.push(...a.items))
-console.log(repos)
-setTimeout( () => repos.forEach(e => console.log(e.name)), 1000)
 
-setTimeout( () => repos.forEach(e => console.log(e)), 2000)
+getRepo('12ga').then(a => reposName.push(...a.items))
+// getRepo('tetr').then(a => repos.push(...a.items))
 
-async function getRepos () {
-    const repos = []; 
+const ul = document.getElementById('ul');
+const fragment = document.createDocumentFragment();
 
-}
+const reposName = []
+
+setTimeout( () => {
+    for(repo of reposName) {
+        const li = document.createElement('li');
+        li.textContent = repo.name;
+        fragment.append(li);
+    }
+    ul.append(fragment)
+    app.append(ul)
+},200)
+
+
+// console.log(reposName)
+// setTimeout( () => repos.forEach(e => console.log(e.name)), 1000)
+
+// setTimeout( () => repos.forEach(e => console.log(e)), 2000)
+
+// async function getRepos () {
+//     const repos = []; 
+
+// }
+
+// console.log(getRepo('goga'));
 
 
 // search.textContent = 
@@ -75,3 +96,16 @@ async function getRepos () {
 // })
 
 // debounce(getRepo('goga')
+
+// const element  = document.getElementById('ul'); // assuming ul exists
+// const fragment = document.createDocumentFragment();
+// const browsers = ['Firefox', 'Chrome', 'Opera',
+//     'Safari', 'Internet Explorer'];
+
+// browsers.forEach((browser) => {
+//     const li = document.createElement('li');
+//     li.textContent = browser;
+//     fragment.appendChild(li);
+// });
+
+// element.appendChild(fragment);
