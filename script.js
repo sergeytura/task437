@@ -14,7 +14,7 @@ const debounce = (fn, debounceTime) => {
 const input = document.querySelector('.app__input')
 input.addEventListener('input' ,(e) => {
     const { value } = e.target;
-    return getRepo(value).then(a => repos.push(...a.items))
+    // return getRepo(value).then(a => repos.push(...a.items))
 });
 
 const app = document.querySelector('.app')
@@ -41,19 +41,37 @@ app.append(res)
 //     fetch(`https://api.github.com/search/repositories?q=Q`)
 //     .then(response => console.log(response))
 // })
-function getRepo(repo) {
-   return new Promise((resolve, reject) => {
-    fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
-    .then(data => resolve(data.json()))
-    .catch(err => reject(err))
-   }) 
+// function getRepo(repo) {
+//    return new Promise((resolve, reject) => {
+//     fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
+//     .then(data => resolve(data.json()))
+//     .catch(err => reject(err))
+//    }) 
+// }
+
+async function getRepo(repo) {
+    let data = await fetch(`https://api.github.com/search/repositories?q=${repo}&per_page=5`)
+    let dataJson = data.json()
+    return dataJson
 }
 
-let repos = []
-// getRepo('goga')
+const repos = []
+// getRepo('goga').then(a => repos.push(...a.items))
+getRepo('tetr').then(a => repos.push(...a.items))
 console.log(repos)
 setTimeout( () => repos.forEach(e => console.log(e.name)), 1000)
+
+setTimeout( () => repos.forEach(e => console.log(e)), 2000)
+
+async function getRepos () {
+    const repos = []; 
+
+}
+
+
 // search.textContent = 
 // document.addEventListener('click', (e) => {
 //     console.log(e.target)
 // })
+
+// debounce(getRepo('goga')
