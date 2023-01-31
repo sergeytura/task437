@@ -1,3 +1,5 @@
+
+
 const debounce = (fn, debounceTime) => { // задержка поиска
     let timer;
     return function(...args) {
@@ -36,7 +38,7 @@ async function searchRepos (name) { // поиск репозиториев
     for(repo of repos) {
         const li = document.createElement('li');
         li.classList.add('app__search-li')
-        li.innerHTML = `<a href='${repo.html_url}'>${repo.name}</a>`;
+        li.insertAdjacentHTML('afterbegin',`<a href='${repo.html_url}'>${repo.name}</a>`);
         fragment.append(li);
     }
     ul.append(fragment)
@@ -72,14 +74,15 @@ async function resultRepos(res) {
         for(repo of repos) {
             const li = document.createElement('li');
             li.classList.add('app__result-li')
-            li.innerHTML = `Name: ${repo.name}<br/>Owner: ${repo.owner.type}<br/>Stars: ${repo.stargazers_count}`;
+            li.insertAdjacentHTML('afterbegin', `Name: ${repo.name}<br/>Owner: ${repo.owner.type}<br/>Stars: ${repo.stargazers_count}`);
             fragment.append(li);
         }
         ul.append(fragment)
         app.append(ul)
 }
 
-// resultRepos('appert')
+resultRepos('appert')
+resultRepos('poster')
 searchRepos('tetris')
 
 document.addEventListener('click', (e) => {
@@ -93,3 +96,9 @@ document.addEventListener('click', (e) => {
     //     liCountSearch[0].remove()
     // }
 })
+
+function clear(elem) {
+    return elem.innerHTML = ''
+}
+
+setTimeout(() => clear(input), 1000)
