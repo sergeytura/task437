@@ -64,12 +64,18 @@ function resultRepos(res) {
          liCount.forEach( e => e.remove())
     }
     // создание карточки результата
+    const resCard = document.querySelector('.result')
     const li = document.createElement('li');
+    const img = document.createElement('img')
+    img.classList.add('app__result-img')
+    img.classList.add(`${res[0].name}`)
+    img.src = '/img/close.png'
+    li.append(img)
     li.classList.add('app__result-li')
     li.insertAdjacentHTML('afterbegin', `Name: ${res[0].name}<br/>Owner: ${res[0].owner.type}<br/>Stars: ${res[0].stargazers_count}`);
     fragment.append(li);
     ul.append(fragment)
-    app.append(ul)
+    resCard.append(ul)
 }
 
 // resultRepos('appert')
@@ -194,6 +200,17 @@ resultRepos([
     }
 ])
 
+
 document.addEventListener('click', (e) => {
-    console.log(e.target)
+    // const resultCard = document.querySelector('.app__result')
+    // const closeImg = document.querySelector('.app__result-img')
+    // console.log( Array.from(resultCards))
+    // console.log(e.target)
+    // let array = []
+    if (e.target.matches('.app__result-img')){
+        // const resultCards = document.querySelectorAll('.app__result')
+        // const arrayCards = Array.from(resultCards)
+        // console.log(e.target.classList.contains('posters'))
+        // arrayCards.filter( (e.target.classList.contains('posters')) => e.remove())
+    }
 })
