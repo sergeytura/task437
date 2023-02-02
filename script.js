@@ -68,7 +68,7 @@ function resultRepos(res) {
     const img = document.createElement('img')
     img.classList.add('app__result-img')
     img.classList.add(`${res[0].name}`)
-    img.src = '/img/close.png'
+    img.src = '../img/close.png'
     li.append(img)
     li.classList.add('app__result-li')
     li.insertAdjacentHTML('afterbegin', `Name: ${res[0].name}<br/>Owner: ${res[0].owner.type}<br/>Stars: ${res[0].stargazers_count}`);
