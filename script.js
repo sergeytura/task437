@@ -81,6 +81,9 @@ document.addEventListener('click', (e) => {
     if (e.target.matches('.app__search-li')) { // для создания карточки
         let link = e.target.querySelector('li>a')
         let result = repos.filter((e) => e.html_url == link.href)
+        input.value = '' // после клика на автокомплит - инпут чист
+        let liCount = document.querySelectorAll('.app__search-li') //чистка списка автокомплита изза пустого инпут
+        liCount.forEach( e => e.remove())
         return resultRepos(result)
     }
     if (e.target.matches('.app__result-img')){ // удаление нажатием на крестик
