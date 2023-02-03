@@ -32,7 +32,6 @@ async function searchRepos (name) { // поиск репозиториев
     const ul = document.createElement('ul');
     ul.classList.add('app__search')
     const fragment = document.createDocumentFragment();
-    console.log(repos)
     // не более 5 результатов поиска
     let liCount = document.querySelectorAll('.app__search-li') 
     if(Array.from(liCount).length >= 4) {
@@ -67,7 +66,6 @@ function resultRepos(res) {
     const li = document.createElement('li');
     const img = document.createElement('img')
     img.classList.add('app__result-img')
-    img.classList.add(`${res[0].name}`)
     img.src = '../img/close.png'
     li.append(img)
     li.classList.add('app__result-li')
