@@ -28,7 +28,7 @@ function searchCards (repositories) { // создание карточек ав�
         const li = document.createElement('li');
         const { owner , name , stargazers_count } = el
         li.classList.add('app__search-li')
-        li.addEventListener('click', () => {
+        li.addEventListener('click', function() {
             li.removeEventListener('click', arguments.callee);
             resultCards({ owner, name, stargazers_count })
         })
@@ -41,10 +41,8 @@ function searchCards (repositories) { // создание карточек ав�
 }
 
 function removeCards () { // удаление карточек
-    const cards = document.querySelectorAll('.app__search-li');
-    for(el of cards) {
-        el.remove()
-    }
+    const cards = document.querySelector('.app__search');
+    if(cards) cards.remove()
 }
 
 function resultCards({ owner, name, stargazers_count }) {     // создание карточки результата
