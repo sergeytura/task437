@@ -29,6 +29,7 @@ function searchCards (repositories) { // создание карточек ав�
         const { owner , name , stargazers_count } = el
         li.classList.add('app__search-li')
         li.addEventListener('click', () => {
+            li.removeEventListener('click', arguments.callee);
             resultCards({ owner, name, stargazers_count })
         })
         li.textContent = el.name;
