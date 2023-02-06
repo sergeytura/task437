@@ -70,7 +70,11 @@ body {
 .app__result {
     display: flex;
     position: relative;
-    align-items: center;
+    /* align-items: center; */
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
     color: black;
     font-weight: 400;
     font-size: 24px;
@@ -85,16 +89,20 @@ body {
     padding-left: 10px;
 }
 
-.app__result-img {
+.app__result-button {
     position: absolute;
     height: 50px;
+    width: 50px;
     right: 5%;
     top: 25%;
+    background-image: url('/task437/img/close.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: transparent;
+    border: none; 
 }
 
 .result {
     min-height: 103px;
-    /* display: flex; */
     width: 503px;
-    /* flex-wrap: wrap; */
 }
