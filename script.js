@@ -48,6 +48,7 @@ function removeCards () { // удаление карточек
 }
 
 function resultCards({ owner, name, stargazers_count }) {     // создание карточки результата
+    removeCards ()
     const fragment = document.createDocumentFragment();
     const ul = document.createElement('ul');
     ul.classList.add('app__result')
